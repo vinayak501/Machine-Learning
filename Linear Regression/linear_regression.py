@@ -6,7 +6,7 @@ class LinearRegression:
         self.n_iteration = n_iteration
         self.theta = None
 
-    def fit(self,X,y):
+    def gradient_descent_fit(self,X,y):
         X_b = np.c_[np.ones((X.shape[0],1)),X]
         m = X_b.shape[0]
 
@@ -23,6 +23,12 @@ class LinearRegression:
             gradient = (1/m) * X_b.T.dot(X_b.dot(self.theta) - y)
             self.theta -= self.learning_rate * gradient
         
+    def normal_equation_fit(self,X,y):
+        X_b = np.c_[((X.shape[0],1)),X]
+        m = X_b.shape[0]
+
+        self.theta = np.linalg.inv(X_b.T.dot(X_b)).dot(X_b.T).dot(y)
+
     def predict(self,X):
         X_b = np.c_[np.ones((X.shape[0],1)),X]
         return X_b.dot(self.theta)
